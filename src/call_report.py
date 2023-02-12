@@ -5,11 +5,25 @@ from model import CallDetails
 
 class call_report(Resource):
     def get(self,phone):
-        # User.query.filter_by(username=username).first()
-        # detail = CallDetails.query.filter_by(from_number=phone)
-        detail = CallDetails.query.filter(
+        details = CallDetails.query.filter(
             or_(CallDetails.from_number == phone,
                 CallDetails.to_number == phone,
                 )
         ).all()
-        return {1:1}
+
+        result = {}
+        data = []
+
+        for one_deatil in range(len(details)):
+            info = {
+                "id" : details[one_deatil].id,
+                "from_number" :  details[one_deatil].from_number,
+                "to_number":details[one_deatil].to_number
+            }
+            data.append(info)
+        if data:
+            result["Sucess"] = True
+            result["data"] = data
+        else:
+            result["Sucess"] = False
+        return result
