@@ -5,7 +5,7 @@ A RESTful API built with Python Flask that enables users to manage and track the
 
 ### Prerequisites:
 1. Python Programming language
-2. MySql DataBase
+2. MySql
 3. flask
 4. flask_restful
 5. json
