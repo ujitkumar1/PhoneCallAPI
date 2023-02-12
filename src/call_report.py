@@ -10,6 +10,8 @@ from models.model import CallDetails
 
 class call_report(Resource):
     def get(self):
+        page = request.args.get("page", 1, type=int)
+        per_page = 1
         phone = request.args.get('phone')
         if (len(phone) != 10) or (phone is None) or (not phone.isdigit()):
             msg = "Phone number is not in correct format"
@@ -26,21 +28,33 @@ class call_report(Resource):
                 )
         ).all()
 
+        start = (page - 1) * per_page
+        end = start + per_page
+        items = details[start:end]
+
         result = {}
 
-        if details:
+        if items:
             data = []
 
-            for one_deatil in range(len(details)):
+            for one_detail in range(len(items)):
                 info = {
-                    "id": details[one_deatil].id,
-                    "from_number": details[one_deatil].from_number,
-                    "to_number": details[one_deatil].to_number,
-                    "start_time": str(details[one_deatil].start_time)
+                    "id": items[one_detail].id,
+                    "from_number": items[one_detail].from_number,
+                    "to_number": items[one_detail].to_number,
+                    "start_time": str(items[one_detail].start_time)
                 }
                 data.append(info)
+
             result["Success"] = True
             result["data"] = data
+
+            next_start = end
+            next_end = next_start + per_page
+            next_page_data = details[next_start:next_end]
+
+            if next_page_data:
+                result["next_url"] = request.host_url + "call-report?phone=1234567812&page=" + str(page + 1)
 
             return Response(
                 status=200,
