@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 
-from model import CallDetails
+from models.model import CallDetails
 from src import db
 
 

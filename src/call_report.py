@@ -1,7 +1,8 @@
+from flask import make_response
 from flask_restful import Resource
 from sqlalchemy import or_
 
-from model import CallDetails
+from models.model import CallDetails
 
 
 class call_report(Resource):
@@ -24,10 +25,11 @@ class call_report(Resource):
                     "to_number": details[one_deatil].to_number
                 }
                 data.append(info)
-            result["Sucess"] = True
+            result["Success"] = True
             result["data"] = data
 
-        else:
-            result["Sucess"] = False
+            return make_response(result, 200)
 
-        return result
+        else:
+            result["Success"] = False
+            return make_response(result, 403)

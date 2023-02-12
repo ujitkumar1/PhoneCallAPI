@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PhoneCallAPI",
+  "properties": {
+    "from_number": {
+      "title": "from_number",
+      "description": "The phone number from which call is initiated",
+      "type": "integer",
+      "minLength": 10,
+      "maxLength": 10,
+      "pattern": "^[0-9]",
+      "examples": [
+        1234567890
+      ]
+    },
+    "to_number": {
+      "title": "to_number",
+      "description": "The phone number to which call is initiated",
+      "type": "integer",
+      "minLength": 10,
+      "maxLength": 10,
+      "pattern": "^[0-9]",
+      "examples": [
+        1234567890
+      ]
+    }
+  },
+  "required": [
+    "from_number",
+    "to_number"
+  ]
+}
