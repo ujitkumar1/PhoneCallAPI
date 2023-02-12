@@ -1,8 +1,8 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
-import os
-
 
 app = Flask(__name__)
 app.secret_key = "ujit1"

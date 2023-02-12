@@ -1,13 +1,16 @@
+from flask import request
 from flask_restful import Resource
 
-from src import db
 from model import CallDetails
+from src import db
 
 
 class initiate_call(Resource):
-    def post(self,from_,to_):
-        new_detail = CallDetails(from_number = from_,to_number = to_)
+    def post(self):
+        data = request.get_json()
+
+        new_detail = CallDetails(from_number=data['from_number'], to_number=data['to_number'])
         db.session.add(new_detail)
         db.session.commit()
-        return {"f":from_,"t":to_}
 
+        return data
