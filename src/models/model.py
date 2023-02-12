@@ -4,8 +4,8 @@ from src import db
 
 
 class CallDetails(db.Model):
-    __tablename__ = 'call_dDetails'
+    __tablename__ = 'call_Details'
     id = db.Column(db.Integer, primary_key=True)
     from_number = db.Column(db.Integer, nullable=False)
     to_number = db.Column(db.Integer, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    start_time = db.Column(db.DateTime, default=datetime.utcnow)

@@ -1,12 +1,25 @@
-from flask import make_response
+import json
+
+from flask import Response, request
 from flask_restful import Resource
 from sqlalchemy import or_
 
+from log import log
 from models.model import CallDetails
 
 
 class call_report(Resource):
-    def get(self, phone):
+    def get(self):
+        phone = request.args.get('phone')
+        if (len(phone) != 10) or (phone is None) or (not phone.isdigit()):
+            msg = "Phone number is not in correct format"
+            log.error(msg)
+            return Response(
+                status=400,
+                response=json.dumps(msg),
+                content_type="application/json"
+            )
+        phone = int(phone)
         details = CallDetails.query.filter(
             or_(CallDetails.from_number == phone,
                 CallDetails.to_number == phone,
@@ -22,14 +35,22 @@ class call_report(Resource):
                 info = {
                     "id": details[one_deatil].id,
                     "from_number": details[one_deatil].from_number,
-                    "to_number": details[one_deatil].to_number
+                    "to_number": details[one_deatil].to_number,
+                    "start_time": str(details[one_deatil].start_time)
                 }
                 data.append(info)
             result["Success"] = True
             result["data"] = data
 
-            return make_response(result, 200)
+            return Response(
+                status=200,
+                response=json.dumps(result),
+                content_type="application/json"
+            )
 
-        else:
-            result["Success"] = False
-            return make_response(result, 403)
+        result["msg"] = "number not found in database"
+        return Response(
+            status=404,
+            response=json.dumps(result),
+            content_type="application/json"
+        )

@@ -6,8 +6,8 @@
       "title": "from_number",
       "description": "The phone number from which call is initiated",
       "type": "integer",
-      "minLength": 10,
-      "maxLength": 10,
+      "minimum": 1000000000,
+      "maximum": 9999999999,
       "pattern": "^[0-9]",
       "examples": [
         1234567890
@@ -17,8 +17,8 @@
       "title": "to_number",
       "description": "The phone number to which call is initiated",
       "type": "integer",
-      "minLength": 10,
-      "maxLength": 10,
+      "minimum": 1000000000,
+      "maximum": 9999999999,
       "pattern": "^[0-9]",
       "examples": [
         1234567890
@@ -28,5 +28,6 @@
   "required": [
     "from_number",
     "to_number"
-  ]
+  ],
+  "additionalProperties": false
 }
