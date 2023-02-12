@@ -15,7 +15,17 @@ with open(abs_file_path, "r") as f:
 
 
 def validateJson(jsonData):
+    """
+        This function validates the input JSON data.
+        The data is first decoded from bytes to a string and loaded into a Python object using the `json` module.
+        The loaded data is then validated against a predefined JSON schema using the `jsonschema` library.
+        Args:
+            jsonData: The JSON data to be validated.
+        Returns:
+            If the data is valid, returns the loaded Python object. If the data is invalid, returns a string error message.
+    """
     try:
+        # loading the request
         jsonData = jsonData.get_data().decode("utf-8")
         req_obj = json.loads(jsonData)
     except Exception as error:
@@ -24,6 +34,7 @@ def validateJson(jsonData):
         return err_msg
 
     try:
+        # validating the request with json_schema
         validate(instance=req_obj, schema=schema)
     except jsonschema.exceptions.ValidationError as err:
         log.error("Error while validating the data \n ERROR :" + str(err.args[0]))
@@ -31,12 +42,3 @@ def validateJson(jsonData):
         return err_msg
 
     return req_obj
-
-# jsonData = json.loads('{"from_number": 1234567890, "to_number": 1234567809}')
-# isValid = validateJson(jsonData)
-# if isValid:
-#     print(jsonData)
-#     print("Given JSON data is Valid")
-# else:
-#     print(jsonData)
-#     print("Given JSON data is InValid")
